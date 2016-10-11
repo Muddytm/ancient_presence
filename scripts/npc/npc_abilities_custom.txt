@@ -4,144 +4,161 @@
 {
   "Version"   "1"
 
-  "abyssal_underlord_pit_of_malice_datadriven"
-	{
-		// General
-		//-----------------------------------------------------------------------------------------------------------			--
-		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTarget"				"DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
-		"AbilityTextureName"			"pitlord_pit"
-		"AbilityCastPoint"				"0.6"
-		"AbilityCastAnimation" 			"ACT_DOTA_ATTACK"
-		"AbilityCastRange"				"750"
-		"AbilityCooldown"				"24.0 21.0 18.0 15.0"
-		"AbilityManaCost"				"100 115 130 145"
+  "elder_titan_natural_order_datadriven"
+  {
+  	// General
+  	//-------------------------------------------------------------------------------------------------------------
+  	"BaseClass"				"ability_datadriven"
+  	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA"
+  	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+  	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+  	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 
+  	// Special
+  	//-------------------------------------------------------------------------------------------------------------
+  	"AbilitySpecial"
+  	{
+  		"01"
+  		{
+  			"var_type"					"FIELD_INTEGER"
+  			"radius"					"275 275 275 275"
+  		}
+  		"02"
+  		{
+  			"var_type"					"FIELD_INTEGER"
+  			"armor_reduction_pct"	    "40 60 80 100"
+  		}
+  		"03"
+  		{
+  			"var_type"					"FIELD_INTEGER"
+  			"magic_resistance_pct"		"12 19 26 33"
+  		}
+  	}
+  }
 
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"radius"					"275"
-			}
-			"02"
-			{
-				"var_type"						"FIELD_FLOAT"
-				"pit_duration"					"7.0"
-			}
-			"03"
-			{
-				"var_type"						"FIELD_FLOAT"
-				"pit_interval"					"0.5"
-			}
-			"04"
-			{
-				"var_type"						"FIELD_INTEGER"
-				"pit_damage"					"100"
-			}
-			"05"
-			{
-				"var_type"						"FIELD_FLOAT"
-				"ensnare_duration"				"1.0 1.5 2.0 2.5"
-			}
-		}
+  "split_earth_datadriven"
+  {
+  	// General
+  	//-------------------------------------------------------------------------------------------------------------
+  	"BaseClass"				"ability_datadriven"
+  	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+  	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+  	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+  	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+  	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+  	"FightRecapLevel"				"1"
+  	"AbilityTextureName"			"leshrac_split_earth"
 
-		// Data driven
-		//-------------------------------------------------------------------------------------------------------------
-		"precache"
-		{
-			"particle"				"particles/units/heroes/hero_abyssal_underlord/pit_of_malice.vpcf"
-		}
+  	"precache"
+  	{
+  		"soundfile"         "soundevents/game_sounds_heroes/game_sounds_leshrac.vsndevts"
+  		"particle"			"particles/units/heroes/hero_leshrac/leshrac_split_earth.vpcf"
+  		"particle"			"particles/generic_gameplay/generic_stunned.vpcf"
+  	}
 
-		"OnSpellStart"
-		{
-		 	"CreateThinker"
-		 	{
-		 		"ModifierName"	"pit_thinker"
-		 		"Target" 		"POINT"
-		 	}
+  	// Casting
+  	//-------------------------------------------------------------------------------------------------------------
+  	"AbilityCastRange"				"750"
+  	"AbilityCastPoint"				"0.7 0.7 0.7 0.7"
+  	"AOERadius"						"%radius"
 
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"  	"POINT"
-					"Radius" 	"%radius"
-					"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
+  	// Time
+  	//-------------------------------------------------------------------------------------------------------------
+  	"AbilityCooldown"				"9 9 9 9"
 
-				"Action"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName"	"rooted"
-						"Duration"		"%ensnare_duration"
-						"Target"	"TARGET"
-					}
-				}
-			}
-		}
+  	// Cost
+  	//-------------------------------------------------------------------------------------------------------------
+  	"AbilityManaCost"				"100 125 140 160"
 
-		"Modifiers"
-		{
-			"pit_thinker"
-			{
-				"Aura"					"pit_think"
-				"Aura_Radius"			"%radius"
-				"Aura_Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"Aura_Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_MECHANICAL"
-				"Aura_Flags"			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-				"Duration"				"%pit_duration"
+  	// Damage.
+  	//-------------------------------------------------------------------------------------------------------------
+  	"AbilityDamage"					"120 180 240 300"
+  	"AbilityDuration"				"2 2 2 2"
 
-				"OnCreated"
-				{
-					"AttachEffect"
-					{
-						"EffectName"		"particles/units/heroes/hero_abyssal_underlord/pit_of_malice.vpcf"
-						"EffectAttachType"	"follow_origin"
-						"Target"			"TARGET"
+  	// Special
+  	//-------------------------------------------------------------------------------------------------------------
+  	"AbilitySpecial"
+  	{
+  		"01"
+  		{
+  			"var_type"			"FIELD_FLOAT"
+  			"delay"				"0.35"
+  		}
 
-						"ControlPoints"
-						{
-							"00" "0 0 0"
-							"01" "%radius 1 1"
-							"15" "25 150 25"
-							"16" "1 0 0"
-						}
-					}
-				}
-			}
-			"pit_think"
-			{
-				"IsDebuff"		"1"
-				"ThinkInterval"	"%pit_interval"
+  		"02"
+  		{
+  			"var_type"			"FIELD_INTEGER"
+  			"radius"			"150 175 200 225"
+  		}
 
-				"OnIntervalThink"
-				{
-					"Damage"
-					{
-						"Target"		 "TARGET"
-						"Type"			 "DAMAGE_TYPE_MAGICAL"
-						"Damage"		 "%pit_damage"
-					}
-				}
-			}
-			"rooted"
-			{
-				"States"
-				{
-					"MODIFIER_STATE_ROOTED"	"MODIFIER_STATE_VALUE_ENABLED"
-				}
-			}
-		}
-	}
+  		"03"
+  		{
+  			"var_type"			"FIELD_INTEGER"
+  			"duration"			"2"
+  		}
+  	}
+
+  	"OnSpellStart"
+  	{
+  		"DelayedAction"
+  		{
+  			"Delay"     "%delay"
+  			"Action"
+  			{
+  				"FireEffect"
+  				{
+  					"EffectName"        "particles/units/heroes/hero_leshrac/leshrac_split_earth.vpcf"
+  					"EffectAttachType"  "start_at_customorigin"
+  					"TargetPoint"       "POINT"
+
+  					"ControlPoints"
+  					{
+  						"01"    "%radius %radius %radius"
+  					}
+  				}
+
+  				"FireSound"
+  				{
+  					"EffectName"	"Hero_Leshrac.Split_Earth"
+  					"Target" 		"CASTER"
+  				}
+
+  				"DestroyTrees"
+  				{
+  					"Target" 		"POINT"
+  					"Radius"		"%radius"
+  				}
+
+  				"ActOnTargets"
+  				{
+  					"Target"
+  					{
+  						"Center"  	"POINT"
+  						"Radius" 	"%radius"
+  						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+  						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+  					}
+
+  					"Action"
+  					{
+  						"Damage"
+  						{
+  							"Target"		"TARGET"
+  							"Type"			"DAMAGE_TYPE_MAGICAL"
+  							"Damage"		"%AbilityDamage"
+  						}
+
+  						"Stun"
+  						{
+  							"Target" 	 "TARGET"
+  							"Duration"   "%duration"
+  						}
+  					}
+  				}
+  			}
+  		}
+  	}
+  }
 
   "wind_walk_datadriven"
 	{
